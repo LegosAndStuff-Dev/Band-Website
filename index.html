@@ -11,7 +11,9 @@
 <body>
     <py-button label="Click me" styles="btn big">
         def on_click(event):
-            print(event)
+            div_element = Element("output")
+            div_element.write("This is from pyscript")
     </py-button>
+    <p id="output"></p>
 </body>
 </html>
