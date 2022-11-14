@@ -1,19 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <title>Home</title>
-</head>
-<body>
-    <py-button label="Click me" styles="btn big">
-        def on_click(event):
-            div_element = Element("output")
-            div_element.write("This is from pyscript")
-    </py-button>
-    <p id="output"></p>
-</body>
+<html lang="en">   
+    <head>
+        <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+        <py-config>
+            packages = ['Pillow']
+            paths = ['Roboto-Black.ttf']
+        </py-config>
+    </head>
+    <body>
+        <button id="button">OK</button>
+        <label for="Upload a PNG image"></label><input type="file" id="file-upload-pillow">
+        <p id="test123"></p>
+        <div id="output_upload_pillow"></div>
+        <py-script>
+            from js import document, console, Uint8Array, window, File
+            from pyodide.ffi import create_proxy
+            import io
+
+            from PIL import Image, ImageFilter, ImageFont, ImageDraw
+
+            def my_function(e):
+                Element("test123").write("Hey")
+
+            async def _upload_change_and_show(e):
+                file_list = e.target.files
+                first_item = file_list.item(0)
+
+                array_buf = Uint8Array.new(await first_item.arrayBuffer())
+
+                bytes_list = bytearray(array_buf)
+                my_bytes = io.BytesIO(bytes_list) 
+
+                my_image = Image.open(my_bytes)
+
+                console.log(f"{my_image.format= } {my_image.width= } {my_image.height= }")
+                W = my_image.width
+                H = my_image.height
+
+                text = input("Input some text")
+
+                font = ImageFont.truetype("./Roboto-Black.ttf", 28)
+                draw = ImageDraw.Draw(my_image)
+                w, h = draw.textsize("Sample Text", font)
+                
+                draw.text(((W-w)-30, 100), text,(255,255,255), font=font)
+
+                my_stream = io.BytesIO()
+                my_image.save(my_stream, format="PNG")
+
+
+                image_file = File.new([Uint8Array.new(my_stream.getvalue())], "new_image_file.png", {type: "image/png"})
+
+                new_image = document.createElement('img')
+                new_image.src = window.URL.createObjectURL(image_file)
+                document.getElementById("output_upload_pillow").appendChild(new_image)
+
+            buttonFunction = create_proxy(my_function)
+            document.getElementById("button").addEventListener("click", buttonFunction)  
+
+            upload_file = create_proxy(_upload_change_and_show)
+            document.getElementById("file-upload-pillow").addEventListener("change", upload_file)
+        </py-script>
+    </body>
 </html>
