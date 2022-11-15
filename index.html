@@ -7,14 +7,52 @@
             packages = ['Pillow']
             paths = ['Roboto-Black.ttf']
         </py-config>
+        <style>
+            body {
+                background-color: #303030;
+                text-align: center;
+            }
+            input {
+                background-color: #00A6FB;
+            }
+
+            .inputSlots {
+                width: 95%;
+                height: 40px;
+                font-size: 30px;
+                color: white;
+            }
+
+            input::placeholder {
+                color: rgb(176, 176, 176);
+                font-size: 30px;
+            }
+
+            button {
+                width: 75%;
+                height: 35px;
+                background-color: #00A6FB;
+                color: white;
+            }
+        </style>
     </head>
     <body>
-        <input type="text" id="test-input"/>
-        <button id="button" type="submit">OK</button>
-        <br>
-        <input type="text" id="text-input2"/>
+        <input type="text" id="input-comp" class="inputSlots" placeholder="Compition Name">
+        <input type="text" id="input-1" class="inputSlots" placeholder="1st Slot"/><br>
+        <input type="text" id="input-2" class="inputSlots" placeholder="2nd Slot"/><br>
+        <input type="text" id="input-3" class="inputSlots" placeholder="3nd Slot"/><br>
+        <input type="text" id="input-4" class="inputSlots" placeholder="4th Slot"/><br>
+        <input type="text" id="input-5" class="inputSlots" placeholder="5th Slot"/><br>
+        <input type="text" id="input-6" class="inputSlots" placeholder="6th Slot"/><br>
+        <input type="text" id="input-7" class="inputSlots" placeholder="7th Slot"/><br>
+        <input type="text" id="input-8" class="inputSlots" placeholder="8th Slot"/><br>
+        <input type="text" id="input-9" class="inputSlots" placeholder="9th Slot"/><br>
+        <input type="text" id="input-10" class="inputSlots" placeholder="10th Slot"/><br>
+        <br><br>
+        <button id="button" type="submit">Check Format</button>
+        <br><br>
         <label for="Upload a PNG image"></label><input type="file" id="file-upload-pillow">
-        <p id="test123"></p>
+        <div id="output_format_checker" style="font-size: 40px;"></div>
         <div id="output_upload_pillow"></div>
         <py-script>
             from js import document, console, Uint8Array, window, File
@@ -24,9 +62,13 @@
             from PIL import Image, ImageFilter, ImageFont, ImageDraw
 
             def my_function(e):
-                text = Element('test-input').element.value
+                text = ""
 
-                Element("test123").write(text)
+                for i in range(1, 11):
+                    element = f"input-{i}"
+                    text += f"{Element(element).element.value}<br>"
+
+                Element("output_format_checker").write(text)
 
             async def _upload_change_and_show(e):
                 file_list = e.target.files
@@ -43,17 +85,28 @@
                 W = my_image.width
                 H = my_image.height
 
-                text = text = Element('test-input').element.value
 
-                font = ImageFont.truetype("./Roboto-Black.ttf", 28)
+                font_size = int(H/25)
+                font_size_comp = int(60)
+                font = ImageFont.truetype("./Roboto-Black.ttf", font_size)
+                fontComp = ImageFont.truetype("./Roboto-Black.ttf", font_size_comp)
                 draw = ImageDraw.Draw(my_image)
-                w, h = draw.textsize(text, font)
-                
-                draw.text(((W-w)-30, 100), text,(255,255,255), font=font)
 
-                text = text = Element('text-input2').element.value
-                w, h = draw.textsize(text, font)
-                draw.text(((W-w)-30, 100 + (28+5)), text,(255,255,255), font=font)
+                text = Element("input-comp").element.value
+                w, h = draw.textsize(text, fontComp)
+
+                draw.text(((W-w)-10, 10), text, (255, 255, 255), font=fontComp)
+
+                for i in range(1, 11):
+
+                    text = Element(f"input-{i}").element.value
+                    w, h = draw.textsize(text, font)
+
+                    if "Lincoln" in text:
+                        draw.text(((W-w)-10, (20+font_size_comp)+(i*font_size)+15), text, (0,0,0), font=font)
+
+                    else:
+                        draw.text(((W-w)-10, (20+font_size_comp)+(i*font_size)+15), text,(255,255,255), font=font)
 
                 my_stream = io.BytesIO()
                 my_image.save(my_stream, format="PNG")
