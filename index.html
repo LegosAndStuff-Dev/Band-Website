@@ -5,7 +5,7 @@
         <script defer src="https://pyscript.net/latest/pyscript.js"></script>
         <py-config>
             packages = ['Pillow']
-            paths = ['Roboto-Black.ttf']
+            paths = ['Roboto-Black.ttf', "image_upload.py"]
         </py-config>
         <style>
             body {
@@ -72,82 +72,21 @@
         <input type="text" id="input-8" class="inputSlots" placeholder="8th Slot"/><br>
         <input type="text" id="input-9" class="inputSlots" placeholder="9th Slot"/><br>
         <input type="text" id="input-10" class="inputSlots" placeholder="10th Slot"/><br>
-        <br><br>
-        <div class="test">
-            <textarea id="textarea-1" placeholder="Caption Awards"></textarea>
-        </div>
+        <input type="text" id="input-11" class="inputSlots" placeholder="11th Slot"/><br>
+        <input type="text" id="input-12" class="inputSlots" placeholder="12th Slot"/><br>
+        <input type="text" id="input-13" class="inputSlots" placeholder="13th Slot"/><br>
+        <input type="text" id="input-14" class="inputSlots" placeholder="14th Slot"/><br>
+        <input type="text" id="input-15" class="inputSlots" placeholder="15th Slot"/><br>
+        <h6 style="font-size: 5px"></h6>
+        <input type="text" id="input-1-cap" class="inputSlots" placeholder="1st Caption"/><br>
+        <input type="text" id="input-2-cap" class="inputSlots" placeholder="2nd Caption"/><br>
+        <input type="text" id="input-3-cap" class="inputSlots" placeholder="3rd Caption"/><br>
+        <input type="text" id="input-4-cap" class="inputSlots" placeholder="4th Caption"/><br>
+        <input type="text" id="input-5-cap" class="inputSlots" placeholder="5th Caption"/><br>
         <br><br>
         <label for="Upload a PNG image"></label><input type="file" id="file-upload-pillow">
         <br><br>
         <div id="output_upload_pillow"></div>
-        <py-script>
-            from js import document, console, Uint8Array, window, File
-            from pyodide.ffi import create_proxy
-            import io
-
-            from PIL import Image, ImageFilter, ImageFont, ImageDraw
-
-            def my_function(e):
-                text = ""
-
-                for i in range(1, 11):
-                    element = f"input-{i}"
-                    text += f"{Element(element).element.value}<br>"
-
-                Element("output_format_checker").write(text)
-
-            async def _upload_change_and_show(e):
-                file_list = e.target.files
-                first_item = file_list.item(0)
-
-                array_buf = Uint8Array.new(await first_item.arrayBuffer())
-
-                bytes_list = bytearray(array_buf)
-                my_bytes = io.BytesIO(bytes_list) 
-
-                my_image = Image.open(my_bytes)
-
-                console.log(f"{my_image.format= } {my_image.width= } {my_image.height= }")
-                W = my_image.width
-                H = my_image.height
-
-
-                font_size = int(H/25)
-                font_size_comp = int(60)
-                font = ImageFont.truetype("./Roboto-Black.ttf", font_size)
-                fontComp = ImageFont.truetype("./Roboto-Black.ttf", font_size_comp)
-                draw = ImageDraw.Draw(my_image)
-
-                text = Element("input-comp").element.value
-                w, h = draw.textsize(text, fontComp)
-
-                draw.text(((W-w)-10, 10), text, (255, 255, 255), font=fontComp)
-
-                for i in range(1, 11):
-
-                    text = Element(f"input-{i}").element.value
-                    w, h = draw.textsize(text, font)
-
-                    if "Lincoln" in text:
-                        draw.text(((W-w)-10, (20+font_size_comp)+(i*font_size)+15), text, (0,0,0), font=font)
-
-                    else:
-                        draw.text(((W-w)-10, (20+font_size_comp)+(i*font_size)+15), text,(255,255,255), font=font)
-
-                console.log(Element("textarea-1").element.value)
-
-                my_stream = io.BytesIO()
-                my_image.save(my_stream, format="PNG")
-
-
-                image_file = File.new([Uint8Array.new(my_stream.getvalue())], "new_image_file.png", {type: "image/png"})
-
-                new_image = document.createElement('img')
-                new_image.src = window.URL.createObjectURL(image_file)
-                document.getElementById("output_upload_pillow").appendChild(new_image)
-
-            upload_file = create_proxy(_upload_change_and_show)
-            document.getElementById("file-upload-pillow").addEventListener("change", upload_file)
-        </py-script>
+        <py-script src="image_upload.py"></py-script>
     </body>
 </html>
