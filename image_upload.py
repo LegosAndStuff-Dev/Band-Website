@@ -14,7 +14,6 @@ def my_function(e):
     Element("output_format_checker").write(text)
 
 async def _upload_change_and_show(e):
-    console.log("This is a test, if I can see this I will be happy.")
     file_list = e.target.files
     first_item = file_list.item(0)
 
@@ -62,17 +61,12 @@ async def _upload_change_and_show(e):
             w, h = draw.textsize(text, font)
 
             if "Lincoln" in text:
-                draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text, (0,0,0), font=font)
+                draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text, (165,7,7), font=font)
 
             else:
                 draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text,(255,255,255), font=font)
-                console.log((20+font_size_comp) + (i*(font_size))+25)
 
-    w, h = draw.textsize("hey", font)
-
-    font = ImageFont.truetype("./Roboto-Black.ttf", font_size)
-
-    draw.text(((W-w), 700), "hey", (255, 255, 255), font=font)
+    draw.rectangle((600, 600, 740, 700), (255, 255, 255))
 
 
 
@@ -90,7 +84,7 @@ async def _upload_change_and_show(e):
             w, h = draw.textsize(text, font)
 
             if "Lincoln" in text:
-                draw.text((10, (20+font_size_comp)+(i*(font_size+5))+25), text, (0,0,0), font=font)
+                draw.text((10, (20+font_size_comp)+(i*(font_size+5))+25), text, (165,7,7), font=font)
 
             else:
                 draw.text((10, (20+font_size_comp)+(i*(font_size+5))+25), text,(255,255,255), font=font)
