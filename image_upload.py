@@ -108,7 +108,10 @@ async def _upload_change_and_show(e):
             console.log(text)
             w, h = draw.textsize(text, font)
 
-            if "Lincoln" in text:
+            if "(red)" in text:
+                text = text.removesuffix(" (red)")
+                w, h = draw.textsize(text, font)
+
                 draw.text((10, (20+font_size_comp)+(i*(font_size+5))+25), text, (165,7,7), font=font)
 
             else:
