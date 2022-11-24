@@ -23,6 +23,7 @@ async def _upload_change_and_show(e):
     font_size = int(H/30)
     font_size_comp = int(60)
     font_size_event_type = font_size+5
+    font_size_location = int(H/30)
     font = ImageFont.truetype("./Roboto-Black.ttf", font_size)
     fontComp = ImageFont.truetype("./Roboto-Black.ttf", font_size_comp)
     fontEventType = ImageFont.truetype("./Roboto-Black.ttf", font_size_event_type)
@@ -71,11 +72,28 @@ async def _upload_change_and_show(e):
 
     draw.text((((W_rect-w)/2)+x0, (y0+5)), "Location", (16,57,109), font=font)
 
-    text = "Waukee Northwest High School Stadium"
-    text = "The Dome at America's Center"
-    w, h = draw.textsize(text, font)
+    fontLocation = ImageFont.truetype("./Roboto-Black.ttf", font_size_location)
 
-    draw.text(((W_rect-w)/2+x0, (y0 + 40)), text, (16,57,109), font=font)
+    text = Element(f"input-location").element.value
+    w, h = draw.textsize(text, fontLocation)
+
+    if w > 350:
+        goodSize = True
+
+        while goodSize:
+            fontLocation = ImageFont.truetype("./Roboto-Black.ttf", font_size_location)
+            w, h = draw.textsize(text, fontLocation)
+
+            if w > 350:
+                font_size_location -= 1
+                console.log(f"W - {w}, {font_size_location}")
+
+            else:
+                goodSize = False
+                draw.text(((W_rect-w)/2+x0, (y0 + 40)), text, (16,57,109), font=fontLocation)
+
+    else:
+        draw.text(((W_rect-w)/2+x0, (y0 + 40)), text, (16,57,109), font=fontLocation)
 
     spotsNotOpen = True
     i = 0
