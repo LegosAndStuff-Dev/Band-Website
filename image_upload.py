@@ -51,22 +51,31 @@ async def _upload_change_and_show(e):
             text = Element(f"input-{i}").element.value
             w, h = draw.textsize(text, font)
 
-            if "Lincoln" in text:
+            if "(red)" in text:
+                text = text.removesuffix(" (red)")
+                w, h = draw.textsize(text, font)
+                
                 draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text, (165,7,7), font=font)
 
             else:
                 draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text,(255,255,255), font=font)
 
+    x0, y0 = (365, 670)
+    x1, y1 = (740, 740)
 
-    draw.rounded_rectangle((450, 610, 740, 740), 20, (186,210,234))
-    W_rect = (740-450)
-    H_rect = (740-610)
+    draw.rounded_rectangle((x0, y0, x1, y1), 20, (186,210,234))
+    W_rect = (x1-x0)
+    H_rect = (y1-y0)
 
     w, h = draw.textsize("Location", font)
-    console.log(f"W - {w}")
 
-    draw.text((((W_rect-w)/2)+450, 615), "Location", (16,57,109), font=font)
-    draw.text((460, 650), "The Dome at America's Center", (16,57,109), font=font)
+    draw.text((((W_rect-w)/2)+x0, (y0+5)), "Location", (16,57,109), font=font)
+
+    text = "Waukee Northwest High School Stadium"
+    text = "The Dome at America's Center"
+    w, h = draw.textsize(text, font)
+
+    draw.text(((W_rect-w)/2+x0, (y0 + 40)), text, (16,57,109), font=font)
 
     spotsNotOpen = True
     i = 0
