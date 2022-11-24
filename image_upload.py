@@ -58,14 +58,15 @@ async def _upload_change_and_show(e):
                 draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text,(255,255,255), font=font)
 
 
-    draw.rounded_rectangle((450, 610, 740, 740), 20, (255, 255, 255))
+    draw.rounded_rectangle((450, 610, 740, 740), 20, (186,210,234))
     W_rect = (740-450)
     H_rect = (740-610)
 
     w, h = draw.textsize("Location", font)
     console.log(f"W - {w}")
 
-    draw.text((((W_rect-w)/2)+450, 615), "Location", (0, 0, 0), font=font)
+    draw.text((((W_rect-w)/2)+450, 615), "Location", (16,57,109), font=font)
+    draw.text((460, 650), "The Dome at America's Center", (16,57,109), font=font)
 
     spotsNotOpen = True
     i = 0
