@@ -4,15 +4,6 @@ import io
 
 from PIL import Image, ImageFilter, ImageFont, ImageDraw
 
-def my_function(e):
-    text = ""
-
-    for i in range(1, 11):
-        element = f"input-{i}"
-        text += f"{Element(element).element.value}<br>"
-
-    Element("output_format_checker").write(text)
-
 async def _upload_change_and_show(e):
     file_list = e.target.files
     first_item = file_list.item(0)
@@ -66,9 +57,15 @@ async def _upload_change_and_show(e):
             else:
                 draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text,(255,255,255), font=font)
 
-    draw.rectangle((600, 600, 740, 700), (255, 255, 255))
 
+    draw.rounded_rectangle((450, 610, 740, 740), 20, (255, 255, 255))
+    W_rect = (740-450)
+    H_rect = (740-610)
 
+    w, h = draw.textsize("Location", font)
+    console.log(f"W - {w}")
+
+    draw.text((((W_rect-w)/2)+450, 615), "Location", (0, 0, 0), font=font)
 
     spotsNotOpen = True
     i = 0
