@@ -57,6 +57,11 @@
                 background-color: white;
                 margin: auto;
             }
+
+            .resetInput {
+                color: black;
+            }
+
         </style>
     </head>
     <body>
@@ -85,7 +90,10 @@
         <input type="text" id="input-4-cap" class="inputSlots" placeholder="4th Caption"/><br>
         <input type="text" id="input-5-cap" class="inputSlots" placeholder="5th Caption"/><br>
         <br><br>
-        <label for="Upload a PNG image"></label><input type="file" id="file-upload-pillow">
+        <form>
+            <label for="Upload a PNG image"></label><input type="file" id="file-upload-pillow">
+            <input type="reset" value="Reset" class="resetInput">
+        </form>
         <br><br>
         <div id="output_upload_pillow"></div>
         <py-script src="image_upload.py"></py-script>
