@@ -49,11 +49,11 @@ async def _upload_change_and_show(e):
         if Element(f"input-{i}").element == None:
             spotsNotOpen = False
         else:
-            text = Element(f"input-{i}").element.value
+            text = str(Element(f"input-{i}").element.value)
             w, h = draw.textsize(text, font)
 
             if "(red)" in text:
-                text = text.removesuffix(" (red)")
+                text = text.replace(" (red)", "")
                 w, h = draw.textsize(text, font)
                 
                 draw.text(((W-w)-10, (20+font_size_comp)+(i*(font_size+5))+25), text, (165,7,7), font=font)
