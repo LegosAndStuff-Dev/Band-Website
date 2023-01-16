@@ -2,7 +2,7 @@ from js import document, console, Uint8Array, window, File
 from pyodide.ffi import create_proxy
 import io
 
-from PIL import Image, ImageFilter, ImageFont, ImageDraw
+from PIL import Image, ImageFont, ImageDraw
 
 async def _upload_change_and_show(e):
     file_list = e.target.files
